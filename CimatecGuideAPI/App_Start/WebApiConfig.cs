@@ -22,6 +22,13 @@ namespace CimatecGuideAPI
             //    defaults: new { id = RouteParameter.Optional }
             //);
 
+            config.Formatters.Remove(config.Formatters.XmlFormatter);
+            config.Formatters.Add(config.Formatters.JsonFormatter);
+
+            //ADDED TO SERIALIZE RELATED OBJECTS
+            var json = config.Formatters.JsonFormatter;
+            json.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.Objects;
+
             config.Routes.MapHttpRoute("DefaultApiWithId", "Api/{controller}/{id}", new { id = RouteParameter.Optional }, new { id = @"\d+" });
             config.Routes.MapHttpRoute("DefaultApiWithAction", "Api/{controller}/{action}");
             config.Routes.MapHttpRoute("DefaultApiGet", "Api/{controller}", new { action = "Get" }, new { httpMethod = new HttpMethodConstraint(HttpMethod.Get) });
